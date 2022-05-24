@@ -1,0 +1,21 @@
+2022-05-24 16:37:31 INFO  launch.version_info - ************************************
+2022-05-24 16:37:31 INFO  launch.version_info - Application Launched
+2022-05-24 16:37:31 INFO  launch.version_info - Serial Configuration Version = 0_1_4
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,0,false,Control,Test1,File1
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,0,false,Control,Test1,File1
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,1,false,Control,Test2,File2
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,0,false,Control,Test1,File1
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,1,false,Control,Test2,File2
+2022-05-24 16:37:34 INFO  file_class.file_read - COM7,9600,8,1.0,1000,Control,N,10,2,false,Control,Test3,File3
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,0,false,Control,Test1,File1
+2022-05-24 16:37:34 INFO  file_class.file_read - COM6,115200,8,1.0,1000,Control,N,10,1,false,Control,Test2,File2
+2022-05-24 16:37:34 INFO  file_class.file_read - COM7,9600,8,1.0,1000,Control,N,10,2,false,Control,Test3,File3
+2022-05-24 16:37:34 INFO  file_class.file_read - COM8,9600,8,1.0,1000,Control,N,10,3,false,Control,Test4,File4
+2022-05-24 16:37:53 INFO  launch.serialEvent - Serial Event COM6 :- ATINTTIME=1 Process :- processing.serial.Serial@55f27612
+2022-05-24 16:37:55 INFO  launch.serialEvent - Serial Event COM6 :- ATCDATA Process :- processing.serial.Serial@55f27612
+2022-05-24 16:37:56 INFO  launch.serialEvent - Serial Event COM6 :- ATBURST=0 Process :- processing.serial.Serial@55f27612
+2022-05-24 16:38:00 INFO  launch.open_for_write_to_file - E:\JSandbox\Serial_Processing_IntelliJ\lib\base\data\File1.dat
+2022-05-24 16:38:02 INFO  launch.serialEvent - Serial Event COM6 :- ATGAIN=1 Process :- processing.serial.Serial@55f27612
+2022-05-24 16:38:03 INFO  launch.serialEvent - Serial Event COM6 :- ATGAIN=2 Process :- processing.serial.Serial@55f27612
+2022-05-24 16:38:04 INFO  launch.serialEvent - Serial Event COM6 :- ATBURST=0 Process :- processing.serial.Serial@55f27612
+2022-05-24 16:38:07 INFO  launch.serialEvent - Serial Event COM6 :- ATVERSW Process :- processing.serial.Serial@55f27612
