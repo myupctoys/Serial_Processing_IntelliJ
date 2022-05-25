@@ -237,7 +237,7 @@ public void handleButtonEvents(GButton button, GEvent event)
   {
     String my_path = p.sketchPath();
     file_class new_file = new file_class(my_path + "\\data\\" + new_serial.specific_process[process].getsave_file() + ".dat");
-    Logger.info(my_path + "\\data\\" + new_serial.specific_process[process].getsave_file() + ".dat");
+    Logger.info(new_file.get_new_file());
     return new_file;
   }
 

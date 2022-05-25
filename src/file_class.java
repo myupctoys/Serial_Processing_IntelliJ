@@ -30,6 +30,16 @@ public boolean is_file_exist(String file_name)
   boolean exists = temp.exists();
   return exists;
 }
+
+public String get_new_file()
+    {
+        return new_file;
+    }
+
+public void set_new_file(String new_file)
+    {
+        this.new_file = new_file;
+    }
   
 public int countLines(String filename) throws IOException 
   {
