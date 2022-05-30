@@ -8,7 +8,6 @@ import processing.core.PApplet;
 import processing.core.PSurface;
 import processing.serial.Serial;
 
-import java.awt.*;
 import java.util.Locale;
 
 public class launch extends PApplet
@@ -18,12 +17,8 @@ GButton btn_exit;
 GButton btn_open;
 GButton btn_send;
 GButton btn_file_open;
-
-String file_name_with_DTG;
-
 GTextField txt_string_to_send;
 GPanel pnl_launch;
-
 GOption opt_date_time_stamp;
 
 public static int x_location = 0;
@@ -32,7 +27,7 @@ public static int y_location = 0;
 public String Serial_Config_Version = "0_1_5";
 public Console console;
 public static int associated_process = 0;
-public file_class data_dump;
+public static file_class[] data_dump;
 
 public void settings()
 {
@@ -80,6 +75,8 @@ public void setup()
   opt_date_time_stamp = new GOption(this, 365, 25, 100, 30, "DTG Stamp");
   pnl_launch.addControl(opt_date_time_stamp);
 
+  data_dump = new file_class[4];
+
   console = new Console(this);
   console.start();
   loop();
@@ -126,7 +123,13 @@ public void btn_file_open_click(GButton source, GEvent event)
       Logger.info("btn_file_open_click clicked");
     try
       {
-       data_dump = open_for_write_to_file(this, associated_process);
+        for(int i = 0; i < 4; i++)
+        {
+          if (new_serial.specific_process[i].getPort_is_open() == true)
+            {
+            data_dump[i] = open_for_write_to_file(this, i);
+            }
+        }
       }
     catch (Exception e)
       {
@@ -163,7 +166,8 @@ public void serialEvent(Serial p)
     String inString = return_rx_serial_data(p);
     String writeinString = "";
     Logger.info("Serial Event " + return_serial_port_name(p) + " :- " + inString +  " Process :- " + p);
-    if(data_dump != null)
+    int port_that_caused_event = which_port_generated_serial_event(p);
+    if(data_dump[port_that_caused_event] != null)
       {
         if(opt_date_time_stamp.isSelected() == true)
           {
@@ -173,13 +177,15 @@ public void serialEvent(Serial p)
         {
           writeinString = inString;
         }
-        data_dump.file_append(writeinString + "\n");
+        //data_dump[associated_process].file_write(writeinString + "\n");
+        data_dump[port_that_caused_event].file_append(writeinString + "\n");
         println(return_serial_port_name(p) + " :- " + writeinString);
       }
     else {
       writeinString = inString;
       println("Serial Event " + return_serial_port_name(p) + " :- " + writeinString + " Process :- " + p);
     }
+
     }
 }
 

@@ -8,19 +8,17 @@
 */
  
 import org.pmw.tinylog.Logger;
-
 import java.io.*;
-import java.net.URI;
 
 class file_class 
 {
   private String new_file;
 
-  public file_class()
+public file_class()
   {
   }
 
-  public file_class(String file_name)
+public file_class(String file_name)
   {
     setNew_file(file_name);
   }
