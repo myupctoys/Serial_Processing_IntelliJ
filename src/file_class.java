@@ -22,7 +22,7 @@ public file_class(String file_name)
   {
     setNew_file(file_name);
   }
-  
+
 public boolean is_file_exist(String file_name)
 {
   File temp = new File(file_name);

@@ -182,7 +182,6 @@ public void serialEvent(Serial p)
         {
           writeinString = inString;
         }
-        //data_dump[associated_process].file_write(writeinString + "\n");
         data_dump[port_that_caused_event].file_append(writeinString + "\n");
         println(return_serial_port_name(p) + " :- " + writeinString);
       }
