@@ -1,6 +1,5 @@
 import at.mukprojects.console.Console;
-import g4p_controls.GButton;
-import g4p_controls.GEvent;
+import g4p_controls.*;
 import org.pmw.tinylog.Configurator;
 import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
@@ -20,17 +19,24 @@ GButton btn_open;
 GButton btn_send;
 GButton btn_file_open;
 
+String file_name_with_DTG;
+
+GTextField txt_string_to_send;
+GPanel pnl_launch;
+
+GOption opt_date_time_stamp;
+
 public static int x_location = 0;
 public static int y_location = 0;
 
-public String Serial_Config_Version = "0_1_4";
+public String Serial_Config_Version = "0_1_5";
 public Console console;
 public static int associated_process = 0;
 public file_class data_dump;
 
 public void settings()
 {
-  size(1000, 400);
+  size(1000, 490);
 }
 
 public void setup()
@@ -45,22 +51,35 @@ public void setup()
   change_logger_output(LOGGER.FILE_LOGGER);    // LOGGER.FILE_LOGGER if you want to move debug logging to a file.
                                                // File will be here ./data/log.txt
   version_info();
-  
-  btn_exit = new GButton(this, width-70, height - 40, 65, 30);
+
+  pnl_launch = new GPanel(this, 10, height -70, width - 20, 60, "");
+  btn_exit = new GButton(this, width-90, 25, 65, 30);
   btn_exit.setText("Exit");
-  btn_exit.addEventHandler(this, "btn_exit_click"); 
+  btn_exit.addEventHandler(this, "btn_exit_click");
+  pnl_launch.addControl(btn_exit);
   
-  btn_open = new GButton(this, 10, height - 40, 65, 30);
+  btn_open = new GButton(this, 10, 25, 65, 30);
   btn_open.setText("Open");
-  btn_open.addEventHandler(this, "btn_open_click"); 
-  
-  btn_send = new GButton(this, 85, height - 40, 65, 30);
+  btn_open.addEventHandler(this, "btn_open_click");
+  pnl_launch.addControl(btn_open);
+
+  btn_send = new GButton(this, 85, 25, 65, 30);
   btn_send.setText("Send");
   btn_send.addEventHandler(this, "btn_send_click");
-  
-  btn_file_open = new GButton(this, 160, height - 40, 65, 30);
+  pnl_launch.addControl(btn_send);
+
+  txt_string_to_send = new GTextField(this, 160, 30, 120, 20);
+  txt_string_to_send.setText("Testing TX Data");
+  pnl_launch.addControl(txt_string_to_send);
+
+  btn_file_open = new GButton(this, 290, 25, 65, 30);
   btn_file_open.setText("File Open");
-  btn_file_open.addEventHandler(this, "btn_file_open_click"); 
+  btn_file_open.addEventHandler(this, "btn_file_open_click");
+  pnl_launch.addControl(btn_file_open);
+
+  opt_date_time_stamp = new GOption(this, 365, 25, 100, 30, "DTG Stamp");
+  pnl_launch.addControl(opt_date_time_stamp);
+
   console = new Console(this);
   console.start();
   loop();
@@ -69,9 +88,19 @@ public void setup()
 public void draw()
 {
   // console.draw(x, y, width, height, preferredTextSize, minTextSize, linespace, padding, strokeColor, backgroundColor, textColor)
-  console.draw(10, height - height +10, width-20, height - 60, 15, 15, 3, 3, color(220), color(0), color(240));
+  console.draw(10, height - height + 10, width-20, height - 90, 15, 15, 4, 4, color(220), color(0), color(240));
   console.print();
 }
+
+public String generate_dtg()
+{
+  return day() + ":" + month() + ":" + year() + " " + hour() + ":" + minute() + ":" + second();
+}
+
+  public String generate_dtg_file()
+  {
+    return day() + "_" + month() + "_" + year() + " " + hour() + "_" + minute() + "_" + second();
+  }
 
 public void btn_exit_click(GButton source, GEvent event)
   { //_CODE_:btn_exit_click:443832:
@@ -94,14 +123,15 @@ public void btn_file_open_click(GButton source, GEvent event)
   { //_CODE_:btn_file_open_click:443832:
   if(source == btn_file_open && event == GEvent.CLICKED)
     {
+      Logger.info("btn_file_open_click clicked");
     try
       {
        data_dump = open_for_write_to_file(this, associated_process);
       }
     catch (Exception e)
       {
-        Logger.info("Comm port not yet open :- " + this);
-        println("Comm port not yet open");
+        Logger.info("Comm port not yet open or file already open :- " + this);
+        println("Comm port not yet open or file already open");
       }
     }
   } //_CODE_:btn_file_open_click:443832: 
@@ -115,7 +145,7 @@ public void btn_send_click(GButton source, GEvent event) throws Exception
     {
       try
       {
-      String send_string = "Testing TX Data " + new_serial.specific_process[associated_process].getMyPortname();
+      String send_string = txt_string_to_send.getText() + " " + new_serial.specific_process[associated_process].getMyPortname();
       new_serial.specific_process[associated_process].send_serial_command(send_string, 100, false);
       }  
     catch(Exception e)
@@ -131,14 +161,25 @@ public void serialEvent(Serial p)
   if(operate_on_new_serial_event(p) == true)
     {
     String inString = return_rx_serial_data(p);
+    String writeinString = "";
     Logger.info("Serial Event " + return_serial_port_name(p) + " :- " + inString +  " Process :- " + p);
     if(data_dump != null)
       {
-        data_dump.file_append(inString + "\n");
-        println(return_serial_port_name(p) + " :- " + inString);
+        if(opt_date_time_stamp.isSelected() == true)
+          {
+          writeinString = generate_dtg() + "," + inString;
+          }
+        else
+        {
+          writeinString = inString;
+        }
+        data_dump.file_append(writeinString + "\n");
+        println(return_serial_port_name(p) + " :- " + writeinString);
       }
-    else
-        println("Serial Event " + return_serial_port_name(p) + " :- " + inString +  " Process :- " + p);
+    else {
+      writeinString = inString;
+      println("Serial Event " + return_serial_port_name(p) + " :- " + writeinString + " Process :- " + p);
+    }
     }
 }
 
@@ -236,10 +277,14 @@ public void handleButtonEvents(GButton button, GEvent event)
   public file_class open_for_write_to_file(PApplet p, int process)
   {
     String my_path = p.sketchPath();
-    file_class new_file = new file_class(my_path + "\\data\\" + new_serial.specific_process[process].getsave_file() + ".dat");
+    file_class new_file = new file_class(my_path + "\\data\\" + new_serial.specific_process[process].getsave_file() + " " + generate_dtg_file() + ".csv");
     Logger.info(new_file.get_new_file());
     return new_file;
   }
+
+  public void handlePanelEvents(GPanel panel, GEvent event) { /* code */ }
+  public void handleToggleControlEvents(GToggleControl option, GEvent event) { /* code */ }
+  public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) { /* code */ }
 
   static final javax.swing.JFrame getJFrame(final PSurface surface)
   {

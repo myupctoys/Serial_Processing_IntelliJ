@@ -1,7 +1,4 @@
 /bin/
 /out/
-/lib/base/data/File1.dat
-/lib/base/data/File2.dat
-/lib/base/data/File3.dat
-/lib/base/data/File4.dat
+/lib/base/data/*.csv
 /lib/base/data/log.txt
