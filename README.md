@@ -5,8 +5,8 @@ Same project as [Serial_Processing](https://github.com/myupctoys/Serial_Processi
 <BR>
 This has been done to help users migrate to a JAVA ide when coming from the Processing IDE. New users will quickly realize the benefits of context help, guidance and the plethora of other tools an IDE brings to the table whilst still have all the simplicity of Processing.<BR><BR>
 Project works when launched from IntelliJ 2021.2 community edition, JDK 1.8.0_231 W10 64 bit, but need to try and generate a runnable artifact for the example. May also need to pare back some of the included JARs and make sure there aren't licence conflicts. Intention in including jar libs is to get the application running out of the box, not having to rely on user adding libs.<BR><BR>
-    __TODO__<BR>
-    #1 Add text box to launch gui for file name saved and indicate if opened for logging. Need to come up with a logical way of indicating which of four files is open, after last TODO is complete.<BR>
-    #2 Add text box to launch for string to send with Send button. DONE<BR>
-    #3 Add option to add date time group with comma for CSV to logs and Console for each process. DONE<BR>
-    #4 Check all processes create and log to corresponding log file. Not working ATM. Only logs to process #0 file.
+    <b>TODO__</b><BR>
+    <b>#1</b> Need to come up with a logical way of indicating which of four files is open.<BR>
+    <b>#2</b> Add text box to launch for string to send with Send button. <b>DONE</b><BR>
+    <b>#3</b> Add option to add date time group with comma for CSV to logs and Console for each process. <b>DONE</b><BR>
+    <b>#4</b> Check all processes create and log to corresponding log file. <b>DONE</b><BR>
