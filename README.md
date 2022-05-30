@@ -8,7 +8,6 @@ Project works when launched from IntelliJ 2021.2 community edition, JDK 1.8.0_23
 ![image](https://user-images.githubusercontent.com/5317221/171067388-ea3ec80c-bba8-4c0b-b82e-c53428359993.png)
     
 ![image](https://user-images.githubusercontent.com/5317221/171067419-eed3aa27-2b9f-4278-9b56-7c33f6745f57.png)
-
     <b>TODO</b><BR>
     <b>#1</b> Need to come up with a logical way of indicating which of four files is open.<BR>
     <b>#2</b> Add text box to launch for string to send with Send button. <b>DONE</b><BR>
