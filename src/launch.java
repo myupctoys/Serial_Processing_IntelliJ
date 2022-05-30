@@ -24,7 +24,7 @@ GOption opt_date_time_stamp;
 public static int x_location = 0;
 public static int y_location = 0;
 
-public String Serial_Config_Version = "0_1_5";
+public String Serial_Config_Version = "0_1_6";
 public Console console;
 public static int associated_process = 0;
 public static file_class[] data_dump;
@@ -129,6 +129,11 @@ public void btn_file_open_click(GButton source, GEvent event)
             {
             data_dump[i] = open_for_write_to_file(this, i);
             }
+          else
+          {
+            Logger.info("Comm port not yet open :- " + this);
+            println("Comm port not yet open");
+          }
         }
       }
     catch (Exception e)
