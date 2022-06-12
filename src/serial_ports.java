@@ -246,13 +246,53 @@ public class serial_ports extends PApplet
       delay(del);
     }
   }
-  
-  public void send_fpga_dac_serial_command(String new_packet_string, int del, boolean response)
+
+  public void send_simple_byte(byte[] byte_array, int del, boolean response)
+  {
+    int start_time = millis();
+    myPort.write(byte_array);
+    if(response)
+    {
+      while(!rx_flag)
+      {
+        if(start_time + 500 <= millis())
+          break;
+      }
+    }
+    else
+    {
+      delay(del);
+    }
+  }
+
+  public void send_simple_integer(int[] int_array, int del, boolean response)
+  {
+    int start_time = millis();
+    for(int i = 0; i< int_array.length; i++)
+    {
+      myPort.write((byte) int_array[i] & 0xFF);
+      delay(1);
+    }
+    if(response)
+    {
+      while(!rx_flag)
+      {
+        if(start_time + 500 <= millis())
+          break;
+      }
+    }
+    else
+    {
+      delay(del);
+    }
+  }
+
+  public void send_simple_binary(String new_packet_string, int del, boolean response)
   {
     int start_time = millis();
     rx_flag = false;
-    //delay(30);
-    myPort.write(new_packet_string + ' '); //(char)10);
+    //while(myPort.active());
+    myPort.write(new_packet_string);
     if(response)
     {
       while(!rx_flag)

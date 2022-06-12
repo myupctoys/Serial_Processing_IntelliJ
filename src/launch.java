@@ -8,6 +8,8 @@ import processing.core.PApplet;
 import processing.core.PSurface;
 import processing.serial.Serial;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 public class launch extends PApplet
@@ -17,6 +19,7 @@ GButton btn_exit;
 GButton btn_open;
 GButton btn_send;
 GButton btn_file_open;
+GButton btn_send_file;
 GTextField txt_string_to_send;
 GPanel pnl_launch;
 GOption opt_date_time_stamp;
@@ -28,6 +31,8 @@ public String Serial_Config_Version = "0_1_6";
 public Console console;
 public static int associated_process = 0;
 public static file_class[] data_dump;
+
+xfer new_xfer;
 
 public void settings()
 {
@@ -75,6 +80,11 @@ public void setup()
   opt_date_time_stamp = new GOption(this, 365, 25, 100, 30, "DTG Stamp");
   pnl_launch.addControl(opt_date_time_stamp);
 
+  btn_send_file = new GButton(this,470, 25, 65, 30);
+  btn_send_file.setText("Send File");
+  btn_send_file.addEventHandler(this, "btn_send_file_click");
+  pnl_launch.addControl(btn_send_file);
+
   data_dump = new file_class[4];
 
   console = new Console(this);
@@ -97,6 +107,11 @@ public String generate_dtg()
   public String generate_dtg_file()
   {
     return day() + "_" + month() + "_" + year() + " " + hour() + "_" + minute() + "_" + second();
+  }
+
+  public void btn_send_file_click(GButton source, GEvent event) throws IOException {
+    File file = new File("E:\\JSandbox\\Serial_Processing_IntelliJ\\lib\\base\\data\\test.png");
+    new_xfer = new xfer(file, null, new_serial);
   }
 
 public void btn_exit_click(GButton source, GEvent event)
