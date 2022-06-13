@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -47,7 +48,8 @@ public class packetize
                         arr_values[pp] = arr[pp] & 0x0F;
                     }
                     CRC32_of_packet = java_crc32(arr);
-                        System.out.print(" 0x" + String.format("%08X" , (int)CRC32_of_packet & 0xFFFFFFFF));
+                    String temp_crcp = convert_int_to_bytes(CRC32_of_packet).toString();
+                        System.out.print(" 0x" + temp_crcp );
                         System.out.println(" ");
                 next_index += size_of_packet;
                 }
@@ -63,7 +65,8 @@ public class packetize
                     last_arr_values[pq] = last_arr[pq] & 0xFF;
                 }
                 CRC32_of_packet = java_crc32(last_arr);
-                System.out.print(" 0x" + String.format("%08X", (int)CRC32_of_packet & 0xFFFFFFFF));
+                String temp_crce = convert_int_to_bytes(CRC32_of_packet).toString();
+                System.out.print(" 0x" + temp_crce);
                 System.out.println(" ");
                 System.out.println("Passed packetization");
                 if(send_tx_preamble() == true)
@@ -101,8 +104,9 @@ public class packetize
                     arr_values[p] = arr[p] & 0xFF;
                     }
                 CRC32_of_packet = java_crc32(arr);
-                comm_port.specific_process[0].send_simple_byte(arr, 1, false);
-                comm_port.specific_process[0].send_simple_binary(Integer.toHexString(CRC32_of_packet), 1, false);
+                comm_port.specific_process[0].send_simple_byte(arr, 0, false);
+                String temp_crcp= convert_int_to_bytes(CRC32_of_packet).toString();
+                comm_port.specific_process[0].send_simple_binary(temp_crcp, 1, false);
                 next_index += size_of_packet;
             }
             byte[] last_arr = getSliceOfArray(full_array, next_index, (int)(last_packet_length) + next_index );
@@ -112,8 +116,9 @@ public class packetize
                     last_arr_values[pp] = last_arr[pp] & 0xFF;
                 }
             CRC32_of_packet = java_crc32(last_arr);
-            comm_port.specific_process[0].send_simple_byte(last_arr, 1, false);
-            comm_port.specific_process[0].send_simple_binary(Integer.toHexString(CRC32_of_packet), 1, false);
+            comm_port.specific_process[0].send_simple_byte(last_arr, 0, false);
+            String temp_crce = convert_int_to_bytes(CRC32_of_packet).toString();
+            comm_port.specific_process[0].send_simple_binary(temp_crce, 1, false);
         }
         catch (Exception e)
         {
@@ -121,6 +126,17 @@ public class packetize
             return false;
         }
         return true;
+    }
+
+    private StringBuilder convert_int_to_bytes(int val)
+    {
+    byte[] bytes = ByteBuffer.allocate(4).putInt(val).array();;
+    StringBuilder sb = new StringBuilder();
+    for (byte b : bytes)
+        {
+            sb.append(String.format("%02X", b));
+        }
+    return sb;
     }
 
     private int java_crc32(byte[] packet_array) throws IOException

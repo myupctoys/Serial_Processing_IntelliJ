@@ -109,7 +109,8 @@ public String generate_dtg()
     return day() + "_" + month() + "_" + year() + " " + hour() + "_" + minute() + "_" + second();
   }
 
-  public void btn_send_file_click(GButton source, GEvent event) throws IOException {
+  public void btn_send_file_click(GButton source, GEvent event) throws IOException
+  {
     File file = new File("E:\\JSandbox\\Serial_Processing_IntelliJ\\lib\\base\\data\\test.png");
     new_xfer = new xfer(file, null, new_serial);
   }
