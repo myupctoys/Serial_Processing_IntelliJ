@@ -104,15 +104,27 @@ public String generate_dtg()
   return day() + ":" + month() + ":" + year() + " " + hour() + ":" + minute() + ":" + second();
 }
 
-  public String generate_dtg_file()
+public String generate_dtg_file()
   {
     return day() + "_" + month() + "_" + year() + " " + hour() + "_" + minute() + "_" + second();
   }
 
-  public void btn_send_file_click(GButton source, GEvent event) throws IOException
+public void btn_send_file_click(GButton source, GEvent event) throws IOException
   {
-    File file = new File("E:\\JSandbox\\Serial_Processing_IntelliJ\\lib\\base\\data\\test.png");
-    new_xfer = new xfer(file, null, new_serial);
+    thread("send_file_thread");
+    //new_xfer = new xfer(file, null, new_serial.specific_process[associated_process].getMyPort());
+  }
+
+public void send_file_thread() throws IOException
+  {
+    try {
+      File file = new File("E:\\JSandbox\\Serial_Processing_IntelliJ\\lib\\base\\data\\test.png");
+      new_xfer = new xfer(file, null, new_serial.specific_process[associated_process].getMyPort());
+    }
+    catch(Exception e)
+    {
+      println("Either file doesn't exist, or serial port not opened");
+    }
   }
 
 public void btn_exit_click(GButton source, GEvent event)
@@ -122,7 +134,7 @@ public void btn_exit_click(GButton source, GEvent event)
     System.exit(0);
     }
   } //_CODE_:btn_exit_click:443832:
-  
+
 public void btn_open_click(GButton source, GEvent event)
   { //_CODE_:btn_open_click:443832:
   if(source == btn_open && event == GEvent.CLICKED)

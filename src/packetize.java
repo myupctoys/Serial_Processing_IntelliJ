@@ -1,3 +1,5 @@
+import processing.serial.Serial;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -23,9 +25,9 @@ public class packetize
     boolean xmit_or_rcve = false;       // true == transmit false == receive
     int retry = 10;
     int current_retry = 0;
-    serial_gui comm_port;
+    Serial comm_port;
 
-    public packetize(File current_file, long size_of_packet, boolean xmit_or_rcve, serial_gui comm_port) throws IOException {
+    public packetize(File current_file, long size_of_packet, boolean xmit_or_rcve, Serial comm_port) throws IOException {
         this.current_file = current_file;
         this.xmit_or_rcve = xmit_or_rcve;
         this.size_of_packet = size_of_packet;
@@ -104,9 +106,11 @@ public class packetize
                     arr_values[p] = arr[p] & 0xFF;
                     }
                 CRC32_of_packet = java_crc32(arr);
-                comm_port.specific_process[0].send_simple_byte(arr, 0, false);
+                comm_port.write(arr);
+                //comm_port.specific_process[0].send_simple_byte(arr, 0, false);
                 String temp_crcp= convert_int_to_bytes(CRC32_of_packet).toString();
-                comm_port.specific_process[0].send_simple_binary(temp_crcp, 1, false);
+                comm_port.write(temp_crcp);
+                //comm_port.specific_process[0].send_simple_binary(temp_crcp, 0, false);
                 next_index += size_of_packet;
             }
             byte[] last_arr = getSliceOfArray(full_array, next_index, (int)(last_packet_length) + next_index );
@@ -116,9 +120,11 @@ public class packetize
                     last_arr_values[pp] = last_arr[pp] & 0xFF;
                 }
             CRC32_of_packet = java_crc32(last_arr);
-            comm_port.specific_process[0].send_simple_byte(last_arr, 0, false);
+            comm_port.write(last_arr);
+            //comm_port.specific_process[0].send_simple_byte(last_arr, 0, false);
             String temp_crce = convert_int_to_bytes(CRC32_of_packet).toString();
-            comm_port.specific_process[0].send_simple_binary(temp_crce, 1, false);
+            comm_port.write(temp_crce);
+            //comm_port.specific_process[0].send_simple_binary(temp_crce, 0, false);
         }
         catch (Exception e)
         {
@@ -145,9 +151,6 @@ public class packetize
         CRC32 my_crc32 = new CRC32();
         my_crc32.update(packet_array);
         crc = (int)my_crc32.getValue();
-        //String temp_str = String.format("%08X", crc);
-        //System.out.println("Test Alternate java_crc32() " + Integer.toHexString(crc));
-        //System.out.println("Test Alternate java_crc32() " + temp_str);
         return crc & 0xFFFFFFFF;
     }
 

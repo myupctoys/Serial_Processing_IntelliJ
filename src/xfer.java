@@ -1,3 +1,5 @@
+import processing.serial.Serial;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -8,7 +10,7 @@ public class xfer
     packetize rx_packet;
     File file_name_to_xmit;
     packetize tx_packet;
-    serial_gui comm_port;
+    Serial comm_port;
 
     Boolean xmit_or_rcve = false;
 
@@ -32,7 +34,8 @@ public class xfer
     {
     }
 
-    public xfer(File file_name_to_xmit, File file_name_to_rcve, serial_gui comm_port) throws IOException {
+    public xfer(File file_name_to_xmit, File file_name_to_rcve, Serial comm_port) throws IOException
+    {
         this.comm_port = comm_port;
 
         if(file_name_to_xmit != null)
