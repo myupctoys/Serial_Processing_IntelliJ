@@ -27,7 +27,7 @@ GOption opt_date_time_stamp;
 public static int x_location = 0;
 public static int y_location = 0;
 
-public String Serial_Config_Version = "0_1_6";
+public String Serial_Config_Version = "0_1_7";
 public Console console;
 public static int associated_process = 0;
 public static file_class[] data_dump;
@@ -44,8 +44,8 @@ public void setup()
   println("Serial Processing runtime configuration V" + Serial_Config_Version);
   noLoop();
   surface.setLocation((displayWidth/2) - 100, (displayHeight/2) - (height/2));  
-    x_location = getJFrame(getSurface()).getX();
-    y_location = getJFrame(getSurface()).getY();  
+  x_location = getJFrame(getSurface()).getX();
+  y_location = getJFrame(getSurface()).getY();
     
   configure_logger();
   change_logger_output(LOGGER.FILE_LOGGER);    // LOGGER.FILE_LOGGER if you want to move debug logging to a file.
@@ -117,7 +117,8 @@ public void btn_send_file_click(GButton source, GEvent event) throws IOException
 
 public void send_file_thread() throws IOException
   {
-    try {
+    try
+    {
       File file = new File("E:\\JSandbox\\Serial_Processing_IntelliJ\\lib\\base\\data\\test.png");
       new_xfer = new xfer(file, null, new_serial.specific_process[associated_process].getMyPort());
     }
@@ -213,7 +214,8 @@ public void serialEvent(Serial p)
         data_dump[port_that_caused_event].file_append(writeinString + "\n");
         println(return_serial_port_name(p) + " :- " + writeinString);
       }
-    else {
+    else
+    {
       writeinString = inString;
       println("Serial Event " + return_serial_port_name(p) + " :- " + writeinString + " Process :- " + p);
     }

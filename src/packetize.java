@@ -49,10 +49,10 @@ public class packetize
                     {
                         arr_values[pp] = arr[pp] & 0x0F;
                     }
-                    CRC32_of_packet = java_crc32(arr);
-                    String temp_crcp = convert_int_to_bytes(CRC32_of_packet).toString();
-                        System.out.print(" 0x" + temp_crcp );
-                        System.out.println(" ");
+                CRC32_of_packet = java_crc32(arr);
+                String temp_crcp = convert_int_to_bytes(CRC32_of_packet).toString();
+                System.out.print(" 0x" + temp_crcp );
+                System.out.println(" ");
                 next_index += size_of_packet;
                 }
                 byte[] last_arr = getSliceOfArray(full_array, next_index, (int)(last_packet_length) + next_index );
@@ -92,6 +92,11 @@ public class packetize
         return true;
     }
 
+    private boolean setup_rx_preamble()
+    {
+        return true;
+    }
+
     private boolean send_packets()
     {
         int i = 0;
@@ -107,10 +112,8 @@ public class packetize
                     }
                 CRC32_of_packet = java_crc32(arr);
                 comm_port.write(arr);
-                //comm_port.specific_process[0].send_simple_byte(arr, 0, false);
                 String temp_crcp= convert_int_to_bytes(CRC32_of_packet).toString();
                 comm_port.write(temp_crcp);
-                //comm_port.specific_process[0].send_simple_binary(temp_crcp, 0, false);
                 next_index += size_of_packet;
             }
             byte[] last_arr = getSliceOfArray(full_array, next_index, (int)(last_packet_length) + next_index );
@@ -121,10 +124,8 @@ public class packetize
                 }
             CRC32_of_packet = java_crc32(last_arr);
             comm_port.write(last_arr);
-            //comm_port.specific_process[0].send_simple_byte(last_arr, 0, false);
             String temp_crce = convert_int_to_bytes(CRC32_of_packet).toString();
             comm_port.write(temp_crce);
-            //comm_port.specific_process[0].send_simple_binary(temp_crce, 0, false);
         }
         catch (Exception e)
         {
@@ -156,7 +157,8 @@ public class packetize
 
     private boolean initialize_tx()
     {
-        try {
+        try
+        {
             full_array = Files.readAllBytes(Paths.get(current_file.getAbsolutePath())) ;
             size_of_whole =  full_array.length;
             System.out.println("Size of File " + size_of_whole + " bytes");
@@ -181,7 +183,8 @@ public class packetize
 
     private boolean initialize_rx()
     {
-        try {
+        try
+        {
             return true;
         }
         catch (Exception e)
@@ -233,7 +236,8 @@ public class packetize
         return current_packet_position;
     }
 
-    public void setCurrent_packet_position(long current_packet_position) {
+    public void setCurrent_packet_position(long current_packet_position)
+    {
         this.current_packet_position = current_packet_position;
     }
 

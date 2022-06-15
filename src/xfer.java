@@ -45,7 +45,8 @@ public class xfer
             File new_file = file_name_to_xmit;
             tx_packet = new packetize(new_file, 64, xmit_or_rcve, comm_port);
         }
-        if(file_name_to_rcve != null) {
+        if(file_name_to_rcve != null)
+        {
             this.file_name_to_rcve = file_name_to_rcve;
             xmit_or_rcve = false;
             File new_file = file_name_to_rcve;
