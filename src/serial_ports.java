@@ -45,9 +45,9 @@ public class serial_ports extends PApplet
   public String[] strarray_rx = new String[100];  // Received string array typically 4
   public int rx_pointer = 0;            // Pointer to the next string array for new data
   public int current_rx_pointer = 0;        // The current string array for newest data
-
   public volatile boolean rx_flag = false;          // Set when new data is available, needs to be cleared when this data is acted on
-  public String[] strarray_tx = new String[100];  // Array for transmitted data, not currently used      
+
+  public String[] strarray_tx = new String[100];  // Array for transmitted data, not currently used
   /**
    * Constructor for serial port
    * @param PA parent Applet reference
