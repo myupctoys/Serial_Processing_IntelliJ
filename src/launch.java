@@ -41,9 +41,10 @@ public void settings()
 
 public void setup()
 {
+  GOL gol = new GOL();
   println("Serial Processing runtime configuration V" + Serial_Config_Version);
   noLoop();
-  surface.setLocation((displayWidth/2) - 100, (displayHeight/2) - (height/2));  
+  surface.setLocation((displayWidth/2) - 100, (displayHeight/2) - (height/2));
   x_location = getJFrame(getSurface()).getX();
   y_location = getJFrame(getSurface()).getY();
     
