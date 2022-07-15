@@ -36,7 +36,7 @@ xfer new_xfer;
 
 public void settings()
 {
-  size(1000, 490);
+  size(1000, 1000);
 }
 
 public void setup()
