@@ -12,6 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
+// Note JSSC has issues between JRE's Found https://github.com/java-native/jssc/releases 2.9.4 works with JRE 1.8
+// https://github.com/java-native/jssc
+// https://github.com/java-native/jssc/wiki/Windows-Build-Environment
+
 public class launch extends PApplet
 {
 serial_gui new_serial;
@@ -36,7 +40,7 @@ xfer new_xfer;
 
 public void settings()
 {
-  size(1000, 1000);
+  size(1000, 500);
 }
 
 public void setup()
