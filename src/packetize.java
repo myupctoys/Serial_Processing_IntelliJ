@@ -79,7 +79,7 @@ public class packetize
                         System.out.println("File transfer unsuccessful");
                 }
                     else
-                        System.out.println("File preamble not successful, possibly no comm port open");
+                        System.out.println("File preamble not successful, possibly no comm port open!");
             }
         else
         {
